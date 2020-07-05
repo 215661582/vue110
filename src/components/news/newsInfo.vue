@@ -8,7 +8,7 @@
         <hr>
         <div class="content" v-html="newsinfo.content"></div>
 
-        <comment-box></comment-box>
+        <comment-box :id="this.id"></comment-box>
     </div>
 </template>
 
@@ -21,7 +21,8 @@ import comment from '../subcomponents/comment.vue'
 export default {
     data(){
         return {
-            newsinfo: {}
+            newsinfo: {},
+            id: this.$route.params.id
         }
     },
     created(){
@@ -29,7 +30,7 @@ export default {
     },
     methods: {
         getNewsInfo(){
-            this.$http.get('api/getnew/' + this.$route.params.id).then((result) => {
+            this.$http.get('api/getnew/' + this.id).then((result) => {
                 // console.log(result.body.message[0])
                 if(result.body.status === 0 ){
                     this.newsinfo = result.body.message[0]
@@ -40,7 +41,7 @@ export default {
         }
     },
     components: {
-        "comment-box": comment
+        "comment-box": comment,
     }
 }
 </script>
