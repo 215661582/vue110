@@ -1,0 +1,46 @@
+<template>
+    <div class="goodsdesc-container">
+        <h1 class="title">{{ goodsDesc.title }}</h1>
+        <hr>
+        <div class="content" v-html="goodsDesc.content"></div>
+    </div>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            goodsDesc: {}
+        }
+    },
+    created(){
+        this.getGoodsDesc()
+    },
+    methods: {
+        getGoodsDesc(){
+            this.$http.get('api/goods/getdesc/' + this.$route.params.id ).then(result => {
+                if(result.body.status === 0 ){
+                    this.goodsDesc = result.body.message[0]
+                }
+            })
+        }
+    }
+}
+</script>
+
+<style lang="scss">
+.goodsdesc-container {
+    padding: 4px;
+    .title {
+        color: #226aff;
+        font-size: 16px;
+        text-align: center;
+        margin: 15px 0;
+    }
+    .content {
+        img {
+            width: 100%;
+        }
+    }
+}
+</style>

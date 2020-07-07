@@ -1,11 +1,8 @@
 <template>
   <div>
     <!-- 轮播图 -->
-    <mt-swipe :auto="4000">
-      <mt-swipe-item v-for="item in lunbotuList" :key="item.id">
-        <img :src="item.img" alt />
-      </mt-swipe-item>
-    </mt-swipe>
+    <swipe :lunbotuList="lunbotuList" :isfull="true"></swipe>
+
     <ul class="mui-table-view mui-grid-view mui-grid-9">
       <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
         <router-link to="/home/newslist">
@@ -51,6 +48,9 @@
 <script>
 import { Toast } from "mint-ui";
 
+// 引入轮播图组件
+import swipe from '../subcomponents/swipe.vue'
+
 export default {
   data() {
     return {
@@ -72,29 +72,14 @@ export default {
           }
         });
     }
+  },
+  components: {
+    'swipe': swipe
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.mint-swipe {
-  height: 200px;
-  .mint-swipe-item {
-    &:nth-child(1) {
-      background-color: red;
-    }
-    &:nth-child(2) {
-      background-color: orange;
-    }
-    &:nth-child(3) {
-      background-color: blueviolet;
-    }
-    img {
-    width: 100%;
-    height: 100%;
-  }
-  }
-}
 
 .mui-table-view{
     background-color: #fff;

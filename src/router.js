@@ -10,6 +10,9 @@ import newsInfo from './components/news/newsInfo.vue'
 import photolist from './components/photos/photolist.vue'
 import photoinfo from './components/photos/photoinfo.vue'
 import goodslist from './components/goods/goodsList.vue'
+import goodsinfo from './components/goods/goodsInfo.vue'
+import goodsdesc from './components/goods/goodsDesc.vue'
+import goodscomment from './components/goods/goodscomment.vue'
 
 
 
@@ -26,6 +29,9 @@ var router = new VueRouter({
     { path: '/home/photolist', component: photolist },
     { path: '/home/photoinfo/:id', component: photoinfo },
     { path: '/home/goodslist', component: goodslist },
+    { path: '/home/goodsinfo/:id', component: goodsinfo, name: 'goodsinfo' },
+    { path: '/home/goodsdesc/:id', component: goodsdesc, name: 'goodsdesc'},
+    { path: '/home/goodscomment/:id', component: goodscomment, name: 'goodscomment'}
   ],
   linkActiveClass: 'mui-active'
 })
