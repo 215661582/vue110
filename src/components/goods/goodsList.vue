@@ -47,7 +47,7 @@ export default {
             this.getGoodsList()
         },
         getJump(id){
-            console.log(this)
+            // console.log(this)
             this.$router.push({ name: 'goodsinfo', params: {id} })
         }
     }

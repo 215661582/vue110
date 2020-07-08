@@ -6,6 +6,112 @@ import VueRouter from 'vue-router'
 // 安装路由
 Vue.use(VueRouter)
 
+// 导入包
+import Vuex from 'vuex'
+// 注册vuex到vue中
+Vue.use(Vuex)
+
+// 先读取本地存储 数据
+var car = JSON.parse(localStorage.getItem('car') || '[]')
+
+// new Vuex.Store() 实例，得到一个 数据仓储对象
+var store = new Vuex.Store({
+    state: {
+        car: car  // { id:商品的id, count: 要购买的数量, price: 商品的单价，selected: false  }
+    },
+    mutations: {
+        addShopCarData(state, shopCarData) {
+            // 判断有没有此商品 有则 只添加购买数量   无则把新购物车数据追加到car中
+            var flag = false
+
+            state.car.some(item => {
+                if (item.id === shopCarData.id) {
+                    item.count += parseInt(shopCarData.count)
+                    flag = true
+                    return true
+                }
+            })
+            if (!flag) {
+                state.car.push(shopCarData)
+            }
+            localStorage.setItem('car',JSON.stringify(state.car))
+        },
+        // 当商品数量改变
+        updateGoodsInfo(state, info){
+            state.car.some(item => {
+                if(item.id == info.id){
+                    item.count = parseInt(info.count )
+                    return true
+                }
+            })
+            localStorage.setItem('car',JSON.stringify(state.car))
+        },
+        // 删除商品
+        removeShopCar(state, id){
+            state.car.some( (item, i) => {
+                if(item.id == id){
+                    state.car.splice(i, 1)
+                    return true
+                }
+            })
+            localStorage.setItem('car',JSON.stringify(state.car))
+        },
+        // 商品是否被选中
+        updateGoodsSelected(state, info){
+            state.car.some(item => {
+                if(item.id == info.id){
+                    item.selected = info.selected
+                    return true
+                }
+            })
+            localStorage.setItem('car',JSON.stringify(state.car))
+        }
+        
+    },
+    getters: {
+        // 获取总件数
+        getAllCount(state){
+            var c = 0
+            state.car.forEach(item => {
+                c += item.count
+            });
+            return c
+        },
+        // 获取每个商品的数量
+        getGoodsCount(state){
+            var o = {}
+            state.car.forEach(item => {
+                o[item.id] = item.count
+            })
+            return o
+        },
+        // 获取商品选中状态
+        getGoodsSelect(state){
+            var o = {}
+            state.car.forEach(item => {
+                o[item.id] = item.selected
+            });
+            return o
+        },
+        // 总价钱
+        getAllCountPrice(state){
+            var o = {
+                count: 0,
+                price: 0
+            }
+            state.car.forEach(item => {
+                if(item.selected){
+                    o.count += item.count
+                    o.price += item.price * item.count
+                }
+            })
+            return o
+        }
+    }
+})
+
+
+
 // 导入自己的 router 路由模块
 import router from './router.js'
 
@@ -34,7 +140,7 @@ Vue.http.options.emulateJSON = true;
 import moment from 'moment'
 
 // 定义全局过滤时间
-Vue.filter('dataFormat', function(dataStr, pattern="YYYY-MM-DD HH:mm:ss"){
+Vue.filter('dataFormat', function (dataStr, pattern = "YYYY-MM-DD HH:mm:ss") {
     return moment(dataStr).format(pattern)
 })
 
@@ -57,5 +163,6 @@ import app from './App.vue'
 var vm = new Vue({
     el: '#app',
     render: c => c(app),
-    router
+    router,
+    store
 })

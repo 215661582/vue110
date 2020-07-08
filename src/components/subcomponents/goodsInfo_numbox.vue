@@ -23,7 +23,7 @@ export default {
     // max 数据是父组件异步请求过来的数据 可以使用 watch 监听max数据
     watch: {
         max: function(newVal, oldVal){
-            console.log(newVal, oldVal)
+            // console.log(newVal, oldVal)
             mui('.mui-numbox').numbox().setOption('max', newVal)
         }
     },

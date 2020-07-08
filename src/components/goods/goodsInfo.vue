@@ -113,6 +113,16 @@ export default {
         // 加入购物车动画
         addToShopCar(){
             this.isball = !this.isball
+
+            // 收集数据 组成一个对象
+            // { id:商品的id, count: 要购买的数量, price: 商品的单价，selected: false  }
+            var shopCarData = {
+                id: this.goodsInfo.id,
+                count: this.selectedCount,
+                price: this.goodsInfo.sell_price,
+                selected: true
+            }
+            this.$store.commit('addShopCarData',shopCarData)
         },
         beforeEnter(el){
             el.style.transform = 'translate(0,0)'
@@ -139,7 +149,7 @@ export default {
         // 子组件向父组件传值
         getCount(count){
             this.selectedCount = count
-            console.log('当前父组件-----' +  this.selectedCount)
+            // console.log('当前父组件-----' +  this.selectedCount)
         } 
     },
     components: {
